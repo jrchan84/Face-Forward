@@ -2,15 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="75ae6182-3741-41c1-9ce2-c13a1d6f1c2f" name="Default Changelist" comment="Default Changelist">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/Apple - MacBook Pro - 13&quot; Display with Touch Bar - Intel Core i5 - 8GB Memory - 256GB SSD - Silver.jpg" afterPath="" />
       <change beforePath="$PROJECT_DIR$/out/production/BizHacks-2020/Main.class" afterPath="$PROJECT_DIR$/out/production/BizHacks-2020/Main.class" />
       <change beforePath="$PROJECT_DIR$/out/production/BizHacks-2020/WebcamIO.class" afterPath="$PROJECT_DIR$/out/production/BizHacks-2020/WebcamIO.class" />
-      <change beforePath="$PROJECT_DIR$/src/0.png" afterPath="$PROJECT_DIR$/src/0.png" />
-      <change beforePath="$PROJECT_DIR$/src/1.png" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" afterPath="$PROJECT_DIR$/src/Main.java" />
-      <change beforePath="$PROJECT_DIR$/src/WebcamIO.java" afterPath="$PROJECT_DIR$/src/WebcamIO.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -25,8 +19,8 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="540">
-              <caret line="245" column="5" lean-forward="true" selection-start-line="245" selection-start-column="5" selection-end-line="245" selection-end-column="5" />
+            <state relative-caret-position="480">
+              <caret line="241" column="31" lean-forward="true" selection-start-line="241" selection-start-column="31" selection-end-line="241" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#10047#10720#0" expanded="true" />
@@ -72,6 +66,9 @@
         <entry key="$PROJECT_DIR$" value="alex" />
       </map>
     </option>
+    <push-targets>
+      <push-target-info target-remote="origin" target-branch="justin" repo="$PROJECT_DIR$" source="master" />
+    </push-targets>
     <favorite-branches>
       <branch-storage>
         <map>
@@ -227,7 +224,14 @@
       <option name="project" value="LOCAL" />
       <updated>1580595583138</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Default Changelist">
+      <created>1580599526918</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1580599526918</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -549,8 +553,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="245" column="5" lean-forward="true" selection-start-line="245" selection-start-column="5" selection-end-line="245" selection-end-column="5" />
+        <state relative-caret-position="480">
+          <caret line="241" column="31" lean-forward="true" selection-start-line="241" selection-start-column="31" selection-end-line="241" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#10047#10720#0" expanded="true" />
