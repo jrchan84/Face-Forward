@@ -3,6 +3,8 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
@@ -10,29 +12,38 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 
 public class Main {
             // Replace <Subscription Key> with your valid subscription key.
             private static final String subscriptionKey = "f99a86bd80cd440c8b75d84743b90df2";
-
             private static final String uriBase =
                     "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect";
+            private static final String jillBao =
+                    "{\"url\":\"https://images.squarespace-cdn.com/content/v1/5af0d64d4cde7ab9a2e29635/1560631263524-ECUQ1RR9KZ71BKV9GCA4/ke17ZwdGBToddI8pDm48kLR2rgEg1jPu1GtjV4K1vZ97gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0scl71iiVnMuLeEyTFSXT3qwhEKW1IfUKL5GUNLdDa9MjuPXcXiDenG_NSvE-2lGCg/NSCC-39.jpg\"}";
 
-            private static final String imageWithFaces =
-                    "{\"url\":\"https://upload.wikimedia.org/wikipedia/commons/c/c3/RH_Louise_Lillian_Gish.jpg\"}";
+            private static final String jillbao2 =
+                    "{\"url\":\"https://media-exp1.licdn.com/dms/image/C5603AQFxKEZcNlZWYA/profile-displayphoto-shrink_200_200/0?e=1585180800&v=beta&t=ewtVAbYd4n8Moi8m_rNnMF7jfU5Z-O43GRpwbXqQntQ\"}";
+
+            private static final String alex =
+                    "project/unnamed.jpg";
 
             private static final String faceAttributes =
                     "age,gender,headPose,smile,facialHair,glasses,emotion,hair,makeup,occlusion,accessories,blur,exposure,noise";
 
         public static void main(String[] args) throws IOException {
-            String faceId1 = FaceRecognize();
-            FaceCompare(faceId1, "filler");
+            String faceId1 = FaceRecognize(alex, true); // false mean uses URL, true means use local
+            String faceId2 = FaceRecognize(jillbao2, false);
+            boolean isTheySame = FaceCompare(faceId1, faceId2);
+        }
+
+        private void runFirst(){
 
         }
 
-        public static String FaceRecognize(){
+        public static String FaceRecognize(String photoString, Boolean local){
             HttpClient httpclient = HttpClientBuilder.create().build();
             try {
                 URIBuilder builder = new URIBuilder(uriBase);
@@ -45,13 +56,20 @@ public class Main {
                 URI uri = builder.build();
                 HttpPost request = new HttpPost(uri);
 
-                // Request headers.
-                request.setHeader("Content-Type", "application/json");
                 request.setHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
 
+                // Request headers.
+                if (local) {
+                    request.setHeader("Content-Type", "application/octet-stream");
+                    File file = new File(photoString);
+                    FileEntity reqEntity = new FileEntity(file, ContentType.APPLICATION_OCTET_STREAM);
+                    request.setEntity(reqEntity);
+                } else {
+                    request.setHeader("Content-Type", "application/json");
+                    StringEntity reqEntity = new StringEntity(photoString);
+                    request.setEntity(reqEntity);
+                }
                 // Request body.
-                StringEntity reqEntity = new StringEntity(imageWithFaces);
-                request.setEntity(reqEntity);
 
                 // Execute the REST API call and get the response entity.
                 HttpResponse response = httpclient.execute(request);
@@ -94,9 +112,9 @@ public class Main {
             return null;
         }
 
-        private static void FaceCompare(String faceid1, String faceid2){
+        private static boolean FaceCompare(String faceid1, String faceid2){
             String inputJson =  "{\"faceId1\": \"" + faceid1 + "\"," +
-                    "\"faceId2\": \"" + "5e21d577-b7a4-4376-9173-05bc0bd6ac38" + "\"}";
+                    "\"faceId2\": \"" + faceid2 + "\"}";
 
             HttpClient httpclient = HttpClients.createDefault();
             try {
@@ -115,11 +133,15 @@ public class Main {
                 HttpEntity entity = response.getEntity();
                 if (entity != null)
                 {
-                    System.out.println(EntityUtils.toString(entity));
+                    String answer = EntityUtils.toString(entity).trim();
+                    System.out.println(answer);
+                    JSONObject jsonObject = new JSONObject(answer);
+                    return jsonObject.getBoolean("isIdentical");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            return false;
         }
 }
 
