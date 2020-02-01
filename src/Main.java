@@ -17,6 +17,7 @@ import javafx.scene.text.*;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -26,19 +27,26 @@ public class Main extends Application {
     private Boolean faceDetected = false;
     private Boolean secondaryText = false;
     private Boolean helpButton = false;
+    private Boolean captured = false;
     private Text userDisplayTextMain;
     private Text userDisplayTextSub;
     private Text userDisplayTextHelp;
     private HBox buttonHBox;
     private String profileName = "There is no current customer";
-    private FaceID faceID = new FaceID();
+    private static FaceID faceID = new FaceID();
+    private WebcamIO webcamIO = new WebcamIO();
     private static Items item;
+    private Image profileImage = new Image("0.png");
+    private ImageView profileImageView;
 
     public final Timer clockTimer = new Timer();
 
     public static void main(String[] args) {
-        String faceId1 = FaceID.FaceRecognize();
-        FaceID.FaceCompare(faceId1, "filler");
+
+        String faceId1 = faceID.FaceRecognize();
+        faceID.FaceCompare(faceId1, "filler");
+
+
         item = new Items("Macbook","laptops");
         launch(args);
     }
@@ -111,11 +119,30 @@ public class Main extends Application {
         buttonHBox.setAlignment(Pos.CENTER);
         buttonHBox.setVisible(false);
 
+        Button captureButton = new Button("Capture Face");
+        captureButton.setAlignment(Pos.BOTTOM_CENTER);
+        captureButton.setStyle("-fx-background-color: \n" +
+                "        #090a0c,\n" +
+                "        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),\n" +
+                "        linear-gradient(#20262b, #191d22),\n" +
+                "        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));\n" +
+                "    -fx-background-radius: 5,4,3,5;\n" +
+                "    -fx-background-insets: 0,1,2,0;\n" +
+                "    -fx-text-fill: white;\n" +
+                "    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );\n" +
+                "    -fx-font-family: \"Arial\";\n" +
+                "    -fx-text-fill: linear-gradient(white, #d0d0d0);\n" +
+                "    -fx-font-size: 12px;\n" +
+                "    -fx-padding: 10 20 10 20;");
+        captureButton.setOnAction(e -> captureButtonClick());
+
+
         VBox textBox = new VBox();
         textBox.getChildren().add(userDisplayTextMain);
         textBox.getChildren().add(userDisplayTextSub);
         textBox.getChildren().add(userDisplayTextHelp);
         textBox.getChildren().add(buttonHBox);
+        textBox.getChildren().add(captureButton);
         textBox.setSpacing(70);
         textBox.setAlignment(Pos.CENTER);
 
@@ -135,13 +162,12 @@ public class Main extends Application {
         ListView<String> profileBox = new ListView<>(names1);
         profileBox.setMaxSize(300, 370);
 
-        Image image = new Image("profileImage.jpg");
 
-        ImageView profileImage = new ImageView();
-        profileImage.setImage(image);
-        profileImage.setPreserveRatio(true);
-        profileImage.setFitHeight(250);
-        profileImage.setFitWidth(300);
+        profileImageView = new ImageView();
+        profileImageView.setImage(profileImage);
+        profileImageView.setPreserveRatio(true);
+        profileImageView.setFitHeight(250);
+        profileImageView.setFitWidth(300);
 
         Label nameLabel = new Label(profileName);
         nameLabel.setFont(new Font(20));
@@ -151,7 +177,7 @@ public class Main extends Application {
         nameLabel.setTextAlignment(TextAlignment.CENTER);
 
         VBox customerBox = new VBox(10);
-        customerBox.getChildren().add(profileImage);
+        customerBox.getChildren().add(profileImageView);
         customerBox.getChildren().add(nameLabel);
         customerBox.setAlignment(Pos.CENTER);
 
@@ -210,7 +236,7 @@ public class Main extends Application {
                 });
 
             }
-        }, 0,500);
+        }, 0,1000);
 
     }
 
@@ -218,5 +244,20 @@ public class Main extends Application {
         faceDetected = true;
         secondaryText = true;
         helpButton = true;
+    }
+
+    public void captureButtonClick(){
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                webcamIO.getImage();
+            }
+        };
+        Thread test = new Thread(r);
+
+
+        profileImage = new Image(webcamIO.getCount() + ".png");
+        profileImageView.setImage(profileImage);
+        stage.show();
     }
 }
