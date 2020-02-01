@@ -7,5 +7,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="org.apache.httpcomponents:httpclient:4.5.6" level="application" />
+    <orderEntry type="library" name="org.apache.httpcomponents:httpcore:4.4.10" level="application" />
   </component>
 </module>

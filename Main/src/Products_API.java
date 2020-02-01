@@ -77,7 +77,20 @@ public class Products_API {
         HttpURLConnection conn = null;
         StringBuilder jsonResults = new StringBuilder();
         try {
-            String sb = PRODUCT1_API_BASE + keyword + PRODUCT2_API_BASE + realCat + PRODUCT3_API_BASE;
+            String sb;
+            String[] splited = keyword.split("\\s+");
+            if (splited.length > 1) {
+                for (int i = 1; i < splited.length; i++) {
+                    splited[i] = "&search=" + splited[i];
+                }
+                String temp = "";
+                for (int i = 1; i < splited.length; i++) {
+                    temp = temp.concat(splited[i]);
+                }
+                sb = PRODUCT1_API_BASE + splited[0] + temp + PRODUCT2_API_BASE + realCat + PRODUCT3_API_BASE;
+            } else {
+                sb = PRODUCT1_API_BASE + keyword + PRODUCT2_API_BASE + realCat + PRODUCT3_API_BASE;
+        }
             address = sb;
             URL url = new URL(sb);
             conn = (HttpURLConnection) url.openConnection();

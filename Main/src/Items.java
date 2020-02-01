@@ -16,7 +16,6 @@ public class Items {
         this.setSku(api.getSku());
     }
 
-    public
     public String getName() {
         return this.name;
     }
