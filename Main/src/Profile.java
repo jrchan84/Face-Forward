@@ -10,10 +10,15 @@ public class Profile {
     private String emailAddress;
     private String passWord;
 
-    private List<Item> recentItems;
-    private List<Item> wishlist;
-    private List<Item> purchases;
-    private List<Item> recommendations;
+    private Items item1 = new Items("Macbook", "Laptops");
+    private Items item2 = new Items("Iphone", "Phones");
+    private Items item3 = new Items("Airpods", "Headphones");
+    private Items item4 = new Items("Canon", "Cameras");
+
+    private List<Items> recentItems;
+    private List<Items> wishlist;
+    private List<Items> purchases;
+    private List<Items> recommendations;
 
     public Profile(String firstName, String lastName, String emailAddress, String password) {
         this.firstName = firstName;
@@ -21,8 +26,8 @@ public class Profile {
         this.emailAddress = emailAddress;
         this.passWord = password;
 
-        recentItems = new ArrayList<Item>();
-        wishlist = new ArrayList<Item>();
+        recentItems = new ArrayList<Items>();
+        wishlist = new ArrayList<Items>();
     }
 
     public void setFirstName(String name) {
@@ -41,11 +46,11 @@ public class Profile {
         this.passWord = passWord;
     }
 
-    public void addrecentItem(Item item) {
+    public void addrecentItem(Items item) {
         recentItems.add(item);
     }
 
-    public void removerecentItem(Item item) {
+    public void removerecentItem(Items item) {
         for (int i = 0; i < recentItems.size(); i++) {
             if (Objects.equals(recentItems.get(i), item)) {
                 recentItems.remove(i);
@@ -54,17 +59,10 @@ public class Profile {
         }
     }
 
-    public void addWishListItem(Item item) {
+    public void addWishListItem(Items item) {
         wishlist.add(item);
     }
 
-    public void removerecentItem(Item item) {
-        for (int i = 0; i < wishlist.size(); i++) {
-            if (Objects.equals(wishlist.get(i), item)) {
-                wishlist.remove(i);
-            }
-        }
-    }
 
     public String getFirstName() {
         return firstName;
@@ -78,7 +76,7 @@ public class Profile {
         return emailAddress;
     }
 
-    public List<Item> getRecentItems() {
+    public List<Items> getRecentItems() {
         return recentItems;
     }
 
