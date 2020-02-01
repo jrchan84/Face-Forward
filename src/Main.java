@@ -1,127 +1,222 @@
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.*;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.net.URI;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class Main {
-            // Replace <Subscription Key> with your valid subscription key.
-            private static final String subscriptionKey = "f99a86bd80cd440c8b75d84743b90df2";
+public class Main extends Application {
 
-            private static final String uriBase =
-                    "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect";
+    private Stage stage;
+    private Boolean faceDetected = false;
+    private Boolean secondaryText = false;
+    private Boolean helpButton = false;
+    private Text userDisplayTextMain;
+    private Text userDisplayTextSub;
+    private Text userDisplayTextHelp;
+    private HBox buttonHBox;
+    private String profileName = "There is no current customer";
+    private FaceID faceID = new FaceID();
+    private static Items item;
 
-            private static final String imageWithFaces =
-                    "{\"url\":\"https://upload.wikimedia.org/wikipedia/commons/c/c3/RH_Louise_Lillian_Gish.jpg\"}";
+    public final Timer clockTimer = new Timer();
 
-            private static final String faceAttributes =
-                    "age,gender,headPose,smile,facialHair,glasses,emotion,hair,makeup,occlusion,accessories,blur,exposure,noise";
+    public static void main(String[] args) {
+        String faceId1 = FaceID.FaceRecognize();
+        FaceID.FaceCompare(faceId1, "filler");
+        item = new Items("Macbook","laptops");
+        launch(args);
+    }
 
-        public static void main(String[] args) throws IOException {
-            String faceId1 = FaceRecognize();
-            FaceCompare(faceId1, "filler");
+    @Override
+    public void start(Stage primaryStage) throws Exception{
+        stage = primaryStage;
+        Screen screen = Screen.getPrimary();
+        Rectangle2D bounds = screen.getVisualBounds();
+        stage.setX(bounds.getMinX());
+        stage.setY(bounds.getMinY());
+        stage.setWidth(bounds.getWidth());
+        stage.setHeight(bounds.getHeight());
 
-        }
+        userDisplayTextMain = new Text("Step up to begin your tailored experience.");
+        userDisplayTextMain.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 40));
+        userDisplayTextMain.setFill(Color.WHITE);
+        userDisplayTextMain.setStyle("-fx-text-fill: white;");
+        userDisplayTextMain.setX(300);
+        userDisplayTextMain.setY(200);
+        userDisplayTextMain.setTextAlignment(TextAlignment.CENTER);
 
-        public static String FaceRecognize(){
-            HttpClient httpclient = HttpClientBuilder.create().build();
-            try {
-                URIBuilder builder = new URIBuilder(uriBase);
-                // Request parameters. All of them are optional.
-                builder.setParameter("returnFaceId", "true");
-                builder.setParameter("returnFaceLandmarks", "false");
-                builder.setParameter("returnFaceAttributes", faceAttributes);
+        userDisplayTextSub = new Text(item.getName().substring(0,15) + "     Iphone 11.      Airpod Pros.");
+        userDisplayTextSub.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 40));
+        userDisplayTextSub.setFill(Color.WHITE);
+        userDisplayTextSub.setTextAlignment(TextAlignment.CENTER);
+        userDisplayTextSub.setVisible(false);
 
-                // Prepare the URI for the REST API call.
-                URI uri = builder.build();
-                HttpPost request = new HttpPost(uri);
+        userDisplayTextHelp = new Text("Would you like employee help?");
+        userDisplayTextHelp.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 40));
+        userDisplayTextHelp.setFill(Color.WHITE);
+        userDisplayTextHelp.setTextAlignment(TextAlignment.CENTER);
+        userDisplayTextHelp.setVisible(false);
 
-                // Request headers.
-                request.setHeader("Content-Type", "application/json");
-                request.setHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
+        Button yesButton = new Button("Yes");
+        yesButton.setAlignment(Pos.CENTER_LEFT);
+        yesButton.setStyle("-fx-background-color: \n" +
+                        "        #090a0c,\n" +
+                        "        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),\n" +
+                        "        linear-gradient(#20262b, #191d22),\n" +
+                        "        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));\n" +
+                        "    -fx-background-radius: 5,4,3,5;\n" +
+                        "    -fx-background-insets: 0,1,2,0;\n" +
+                        "    -fx-text-fill: white;\n" +
+                        "    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );\n" +
+                        "    -fx-font-family: \"Arial\";\n" +
+                        "    -fx-text-fill: linear-gradient(white, #d0d0d0);\n" +
+                        "    -fx-font-size: 12px;\n" +
+                        "    -fx-padding: 10 20 10 20;");
 
-                // Request body.
-                StringEntity reqEntity = new StringEntity(imageWithFaces);
-                request.setEntity(reqEntity);
+        Button noButton = new Button("No");
+        noButton.setAlignment(Pos.CENTER_RIGHT);
+        noButton.setStyle("-fx-background-color: \n" +
+                "        #090a0c,\n" +
+                "        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),\n" +
+                "        linear-gradient(#20262b, #191d22),\n" +
+                "        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));\n" +
+                "    -fx-background-radius: 5,4,3,5;\n" +
+                "    -fx-background-insets: 0,1,2,0;\n" +
+                "    -fx-text-fill: white;\n" +
+                "    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );\n" +
+                "    -fx-font-family: \"Arial\";\n" +
+                "    -fx-text-fill: linear-gradient(white, #d0d0d0);\n" +
+                "    -fx-font-size: 12px;\n" +
+                "    -fx-padding: 10 20 10 20;");
 
-                // Execute the REST API call and get the response entity.
-                HttpResponse response = httpclient.execute(request);
-                HttpEntity entity = response.getEntity();
+        buttonHBox = new HBox(70);
+        buttonHBox.getChildren().add(yesButton);
+        buttonHBox.getChildren().add(noButton);
+        buttonHBox.setAlignment(Pos.CENTER);
+        buttonHBox.setVisible(false);
 
-                if (entity != null)
-                {
-                    // Format and display the JSON response.
-                    System.out.println("REST Response:\n");
+        VBox textBox = new VBox();
+        textBox.getChildren().add(userDisplayTextMain);
+        textBox.getChildren().add(userDisplayTextSub);
+        textBox.getChildren().add(userDisplayTextHelp);
+        textBox.getChildren().add(buttonHBox);
+        textBox.setSpacing(70);
+        textBox.setAlignment(Pos.CENTER);
 
-                    String jsonString = EntityUtils.toString(entity).trim();
-                    if (jsonString.charAt(0) == '[') {
-                        JSONArray jsonArray = new JSONArray(jsonString);
-                        System.out.println(jsonArray.toString(2));
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            if (jsonObject.has("faceId")) {
-                                System.out.println("works 1");
-                                return jsonObject.getString("faceId");
-                            }
-                        }
+        StackPane userPane = new StackPane(textBox);
+        userPane.setPrefSize(2560,1600);
+        userPane.setAlignment(Pos.CENTER);
+        userPane.setStyle("-fx-background-image: url('UserDisplayBackground.png');" + "-fx-background-size: stretch;" + "-fx-background-size: no-repeat;" + "-fx-background-size: center;");
+
+        ObservableList<String> names = FXCollections.observableArrayList(
+                "MacBook Pro", "Iphone 11", "Airpod Pros", "Canon EOS R", "USB Adapter", "Iphone Cover", "Portable Charger");
+        ListView<String> analyticBox = new ListView<>(names);
+        analyticBox.setMaxSize(300, 370);
+
+
+        ObservableList<String> names1 = FXCollections.observableArrayList(
+                "Name:", "Email:", "Past Purchases:", "Cart:");
+        ListView<String> profileBox = new ListView<>(names1);
+        profileBox.setMaxSize(300, 370);
+
+        Image image = new Image("profileImage.jpg");
+
+        ImageView profileImage = new ImageView();
+        profileImage.setImage(image);
+        profileImage.setPreserveRatio(true);
+        profileImage.setFitHeight(250);
+        profileImage.setFitWidth(300);
+
+        Label nameLabel = new Label(profileName);
+        nameLabel.setFont(new Font(20));
+        nameLabel.setTextFill(Color.WHITE);
+        nameLabel.setPrefSize(300, 100);
+        nameLabel.setMaxSize(300, 100);
+        nameLabel.setTextAlignment(TextAlignment.CENTER);
+
+        VBox customerBox = new VBox(10);
+        customerBox.getChildren().add(profileImage);
+        customerBox.getChildren().add(nameLabel);
+        customerBox.setAlignment(Pos.CENTER);
+
+        customerBox.setAlignment(Pos.CENTER_LEFT);
+
+        HBox dataBox = new HBox();
+        dataBox.getChildren().add(customerBox);
+        dataBox.getChildren().add(profileBox);
+        dataBox.getChildren().add(analyticBox);
+        dataBox.setSpacing(140);
+        dataBox.setPadding(new Insets(270, 150, 100, 150));
+        dataBox.setAlignment(Pos.CENTER);
+
+        StackPane employeePane = new StackPane(dataBox);
+        userPane.setPrefSize(2560,1600);
+        userPane.setAlignment(Pos.CENTER);
+        employeePane.setStyle("-fx-background-image: url('EmployeeDisplayBackground.png');" + "-fx-background-size: stretch;" + "-fx-background-size: no-repeat;" + "-fx-background-size: center;");
+
+        Tab userTab = new Tab("User Interface");
+        userTab.setClosable(false);
+        userTab.setContent(userPane);
+        userTab.setStyle("-fx-text-base-color: white;"+" -fx-background-color: grey;");
+
+        Tab employeeTab = new Tab("Employee Interface");
+        employeeTab.setClosable(false);
+        employeeTab.setContent(employeePane);
+        employeeTab.setStyle("-fx-text-base-color: white;"+" -fx-background-color: grey;");
+
+        TabPane tabScreen = new TabPane(userTab, employeeTab);
+        tabScreen.setOnKeyPressed(e -> buttonClick());
+
+        Scene scene = new Scene(tabScreen, 1600, 2560);
+
+        primaryStage.setTitle("BestAI V0.1");
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.show();
+
+        // This is where the program periodically refreshes the GUI and checks global variables.
+        // You can set text fields and also their visibility here, depending on events.
+
+        clockTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(() -> {
+                    if (faceDetected) {
+                        userDisplayTextMain.setText("Hi Jill. Here are some recommendations.");
                     }
-                    else if (jsonString.charAt(0) == '{') {
-                        JSONObject jsonObject1 = new JSONObject(jsonString);
-                        System.out.println(jsonObject1.toString(2));
-                        String code = jsonObject1.getString("faceId");
-                        System.out.println("works2");
-                        return code;
-                    } else {
-                        System.out.println(jsonString);
-                        return null;
+                    if (secondaryText) {
+                        userDisplayTextSub.setVisible(true);
                     }
-                }
+                    if (helpButton) {
+                        userDisplayTextHelp.setVisible(true);
+                        buttonHBox.setVisible(true);
+                    }
+                });
+
             }
-            catch (Exception e)
-            {
-                // Display error message.
-                System.out.println(e.getMessage());
-            }
-            return null;
-        }
+        }, 0,500);
 
-        private static void FaceCompare(String faceid1, String faceid2){
-            String inputJson =  "{\"faceId1\": \"" + faceid1 + "\"," +
-                    "\"faceId2\": \"" + "5e21d577-b7a4-4376-9173-05bc0bd6ac38" + "\"}";
+    }
 
-            HttpClient httpclient = HttpClients.createDefault();
-            try {
-
-                URIBuilder builder = new URIBuilder("https://westcentralus.api.cognitive.microsoft.com/face/v1.0/verify");
-                URI uri = builder.build();
-                HttpPost request = new HttpPost(uri);
-                request.setHeader("Content-Type", "application/json");
-                request.setHeader("Ocp-Apim-Subscription-Key", "f99a86bd80cd440c8b75d84743b90df2");
-
-                // Request body
-                StringEntity reqEntity = new StringEntity(inputJson);
-                request.setEntity(reqEntity);
-
-                HttpResponse response = httpclient.execute(request);
-                HttpEntity entity = response.getEntity();
-                if (entity != null)
-                {
-                    System.out.println(EntityUtils.toString(entity));
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+    public void buttonClick() {
+        faceDetected = true;
+        secondaryText = true;
+        helpButton = true;
+    }
 }
-
-
-
