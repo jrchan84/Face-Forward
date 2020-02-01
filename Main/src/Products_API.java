@@ -8,6 +8,11 @@ import java.net.URL;
 
 public class Products_API {
 
+    private String name;
+    private String description;
+    private String imgPath;
+    private String price;
+
     private static final String PRODUCT1_API_BASE = "https://api.bestbuy.com/v1/products((search=";
 
     private static final String PRODUCT2_API_BASE = ")&(categoryPath.id=";
@@ -16,7 +21,14 @@ public class Products_API {
 
     public static String address;
 
-    public static Items search(String keyword, String category) {
+    public Products_API() {
+        this.name = null;
+        this.description = null;
+        this.imgPath = null;
+        this.price = null;
+    }
+
+    public void search(String keyword, String category) {
         String realCat;
         if (category.equals("phones")) {
             realCat = "pcmcat209400050001";
@@ -61,7 +73,6 @@ public class Products_API {
         } else {
             realCat = null;
         }
-        Items item = new Items();
         HttpURLConnection conn = null;
         StringBuilder jsonResults = new StringBuilder();
         try {
@@ -86,10 +97,10 @@ public class Products_API {
         JSONObject jsonObj = new JSONObject(jsonResults.toString());
         JSONArray predsJsonArray = jsonObj.getJSONArray("products");
 
-        item.description = predsJsonArray.getJSONObject(0).getString("shortDescription");
-        item.name = predsJsonArray.getJSONObject(0).getString("name");
+        this.description = predsJsonArray.getJSONObject(0).getString("shortDescription");
+        this.name = predsJsonArray.getJSONObject(0).getString("name");
         Integer temp = predsJsonArray.getJSONObject(0).getInt("salePrice");
-        item.price = temp.toString();
+        this.price = temp.toString();
 
         JSONArray imagesArray = predsJsonArray.getJSONObject(0).getJSONArray("images");
         String imgURL = imagesArray.getJSONObject(0).getString("href");
@@ -97,14 +108,29 @@ public class Products_API {
         try {
             URL url = new URL(imgURL);
             InputStream in = new BufferedInputStream(url.openStream());
-            OutputStream out = new BufferedOutputStream(new FileOutputStream(item.name + ".jpg"));
+            OutputStream out = new BufferedOutputStream(new FileOutputStream(this.name + ".jpg"));
 
             for ( int i; (i = in.read()) != -1; ) {
                 out.write(i);
             }
         } catch (Exception e) {
         }
-        item.imgPath = item.name + ".jpg";
-        return item;
+        this.imgPath = this.name + ".jpg";
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getPrice() {
+        return this.price;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public String getImagePath() {
+        return this.imgPath;
     }
 }
