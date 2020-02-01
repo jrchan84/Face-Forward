@@ -17,9 +17,10 @@ import javafx.scene.text.*;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import java.io.File;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
+
 
 public class Main extends Application {
 
@@ -38,14 +39,25 @@ public class Main extends Application {
     private static Items item;
     private Image profileImage = new Image("0.png");
     private ImageView profileImageView;
+    private Profile jillProfile;
+
+    private HashMap<String, Profile> faceMap = new HashMap<>(); // dont delete
+
 
     public final Timer clockTimer = new Timer();
 
+    private static final String jillBao =
+            "{\"url\":\"https://images.squarespace-cdn.com/content/v1/5af0d64d4cde7ab9a2e29635/1560631263524-ECUQ1RR9KZ71BKV9GCA4/ke17ZwdGBToddI8pDm48kLR2rgEg1jPu1GtjV4K1vZ97gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0scl71iiVnMuLeEyTFSXT3qwhEKW1IfUKL5GUNLdDa9MjuPXcXiDenG_NSvE-2lGCg/NSCC-39.jpg\"}";
+    private static final String jillbao2 =
+            "{\"url\":\"https://media-exp1.licdn.com/dms/image/C5603AQFxKEZcNlZWYA/profile-displayphoto-shrink_200_200/0?e=1585180800&v=beta&t=ewtVAbYd4n8Moi8m_rNnMF7jfU5Z-O43GRpwbXqQntQ\"}";
+    private static final String jill =
+            "src/unnamed.jpg";
+
     public static void main(String[] args) {
-
-        String faceId1 = faceID.FaceRecognize();
-        faceID.FaceCompare(faceId1, "filler");
-
+        jillProfile = new Profile();
+        String faceId1 = FaceID.FaceRecognize(jill, true); // false mean uses URL, true means use local
+        String faceId2 = FaceID.FaceRecognize(jillbao2, false);
+        boolean isTheySame = FaceID.FaceCompare(faceId1, faceId2);
 
         item = new Items("Macbook","laptops");
         launch(args);
@@ -53,6 +65,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        faceMapSetup();
         stage = primaryStage;
         Screen screen = Screen.getPrimary();
         Rectangle2D bounds = screen.getVisualBounds();
@@ -60,6 +73,7 @@ public class Main extends Application {
         stage.setY(bounds.getMinY());
         stage.setWidth(bounds.getWidth());
         stage.setHeight(bounds.getHeight());
+
 
         userDisplayTextMain = new Text("Step up to begin your tailored experience.");
         userDisplayTextMain.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 40));
@@ -151,14 +165,16 @@ public class Main extends Application {
         userPane.setAlignment(Pos.CENTER);
         userPane.setStyle("-fx-background-image: url('UserDisplayBackground.png');" + "-fx-background-size: stretch;" + "-fx-background-size: no-repeat;" + "-fx-background-size: center;");
 
+        //TODO add list of String of recommendation products, then run a for loop here to add them to names.
         ObservableList<String> names = FXCollections.observableArrayList(
                 "MacBook Pro", "Iphone 11", "Airpod Pros", "Canon EOS R", "USB Adapter", "Iphone Cover", "Portable Charger");
         ListView<String> analyticBox = new ListView<>(names);
         analyticBox.setMaxSize(300, 370);
 
-
+        //TODO use profile.getName().... ect.
         ObservableList<String> names1 = FXCollections.observableArrayList(
                 "Name:", "Email:", "Past Purchases:", "Cart:");
+
         ListView<String> profileBox = new ListView<>(names1);
         profileBox.setMaxSize(300, 370);
 
@@ -248,5 +264,14 @@ public class Main extends Application {
     public void captureButtonClick(){
         webcamIO.getImage();
         captured = true;
+    }
+
+    private void faceMapSetup(){
+        Profile alex = new Profile("Alex", "Lin", "alxander.lin@gmail.com", "password");
+        Profile jill = new Profile("Jill", "Bao", "jill.ba00@gmail.com", "hehe");
+
+        faceMap.put("88a3f43d-6a56-4323-b26b-765f00a41762", alex);
+        faceMap.put("96179100-afc0-4106-8172-89535c00ecb0", jill);
+
     }
 }
