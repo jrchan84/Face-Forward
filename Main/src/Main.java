@@ -2,10 +2,12 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -28,7 +30,6 @@ public class Main extends Application {
     private Text userDisplayTextSub;
     private Text userDisplayTextHelp;
     private HBox buttonHBox;
-    private String profileString = "There is no current customer \n This will update when a face is detected.";
     private String profileName = "There is no current customer";
 
     private static Items item;
@@ -87,7 +88,7 @@ public class Main extends Application {
         textBox.getChildren().add(userDisplayTextSub);
         textBox.getChildren().add(userDisplayTextHelp);
         textBox.getChildren().add(buttonHBox);
-        textBox.setSpacing(75);
+        textBox.setSpacing(70);
         textBox.setAlignment(Pos.CENTER);
 
         StackPane userPane = new StackPane(textBox);
@@ -98,22 +99,30 @@ public class Main extends Application {
         ObservableList<String> names = FXCollections.observableArrayList(
                 "MacBook Pro", "Iphone 11", "Airpod Pros", "Canon EOS R", "USB Adapter", "Iphone Cover", "Portable Charger");
         ListView<String> analyticBox = new ListView<>(names);
-        analyticBox.setMaxSize(250, 350);
+        analyticBox.setMaxSize(300, 370);
 
-        Label profileBox = new Label(profileString);
-        profileBox.setFont(new Font(25));
-        profileBox.setTextFill(Color.WHITE);
-        profileBox.setAlignment(Pos.CENTER_LEFT);
+
+        ObservableList<String> names1 = FXCollections.observableArrayList(
+                "Name:", "Email:", "Past Purchases:", "Cart:");
+        ListView<String> profileBox = new ListView<>(names1);
+        profileBox.setMaxSize(300, 370);
+
+        Image image = new Image("profileImage.jpg");
 
         ImageView profileImage = new ImageView();
+        profileImage.setImage(image);
+        profileImage.setPreserveRatio(true);
         profileImage.setFitHeight(250);
-        profileImage.setFitWidth(350);
+        profileImage.setFitWidth(300);
 
         Label nameLabel = new Label(profileName);
-        nameLabel.setFont(new Font(25));
+        nameLabel.setFont(new Font(20));
         nameLabel.setTextFill(Color.WHITE);
+        nameLabel.setPrefSize(300, 100);
+        nameLabel.setMaxSize(300, 100);
+        nameLabel.setTextAlignment(TextAlignment.CENTER);
 
-        VBox customerBox = new VBox(30);
+        VBox customerBox = new VBox(10);
         customerBox.getChildren().add(profileImage);
         customerBox.getChildren().add(nameLabel);
         customerBox.setAlignment(Pos.CENTER);
@@ -124,7 +133,8 @@ public class Main extends Application {
         dataBox.getChildren().add(customerBox);
         dataBox.getChildren().add(profileBox);
         dataBox.getChildren().add(analyticBox);
-        dataBox.setSpacing(225);
+        dataBox.setSpacing(140);
+        dataBox.setPadding(new Insets(270, 150, 100, 150));
         dataBox.setAlignment(Pos.CENTER);
 
         StackPane employeePane = new StackPane(dataBox);

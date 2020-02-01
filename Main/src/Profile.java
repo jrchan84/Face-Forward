@@ -10,10 +10,10 @@ public class Profile {
     private String emailAddress;
     private String passWord;
 
-    private Items item1 = new Items("Macbook", "Laptops");
-    private Items item2 = new Items("Iphone", "Phones");
-    private Items item3 = new Items("Airpods", "Headphones");
-    private Items item4 = new Items("Canon", "Cameras");
+    private Items item1 = new Items("Macbook", "laptops");
+    private Items item2 = new Items("Iphone", "phones");
+    private Items item3 = new Items("Airpods", "audio");
+    private Items item4 = new Items("Canon", "cameras");
 
     private List<Items> recentItems;
     private List<Items> wishlist;
