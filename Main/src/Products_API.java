@@ -1,8 +1,7 @@
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -18,11 +17,55 @@ public class Products_API {
     public static String address;
 
     public static Items search(String keyword, String category) {
+        String realCat;
+        if (category.equals("phones")) {
+            realCat = "pcmcat209400050001";
+        } else if (category.equals("desktop")) {
+            realCat = "abcat0501000";
+        } else if (category.equals("cameras")) {
+            realCat = "abcat0401000";
+        } else if (category.equals("health")) {
+            realCat = "pcmcat242800050021";
+        } else if (category.equals("headphones")) {
+            realCat = "abcat0204000";
+        } else if (category.equals("audio")) {
+            realCat = "pcmcat241600050001";
+        } else if (category.equals("security")) {
+            realCat = "pcmcat254000050002";
+        } else if (category.equals("laptops")) {
+            realCat = "abcat0502000";
+        } else if (category.equals("tablets")) {
+            realCat = "pcmcat209000050006";
+        } else if (category.equals("3ds")) {
+            realCat = "pcmcat232900050000";
+        } else if (category.equals("ps4")) {
+            realCat = "pcmcat295700050012";
+        } else if (category.equals("wireless audio")) {
+            realCat = "pcmcat310200050004";
+        } else if (category.equals("psvita")) {
+            realCat = "pcmcat243400050029";
+        } else if (category.equals("cooking")) {
+            realCat = "abcat0904000";
+        } else if (category.equals("fridges")) {
+            realCat = "abcat0901000";
+        } else if (category.equals("kitchen")) {
+            realCat = "abcat0912000";
+        } else if (category.equals("tvs")) {
+            realCat = "abcat0101000";
+        } else if (category.equals("washers and dryers")) {
+            realCat = "abcat0910000";
+        } else if (category.equals("wiiu")) {
+            realCat = "pcmcat273800050036";
+        } else if (category.equals("xbox1")) {
+            realCat = "pcmcat300300050002";
+        } else {
+            realCat = null;
+        }
         Items item = new Items();
         HttpURLConnection conn = null;
         StringBuilder jsonResults = new StringBuilder();
         try {
-            String sb = PRODUCT1_API_BASE + keyword + PRODUCT2_API_BASE + category + PRODUCT3_API_BASE;
+            String sb = PRODUCT1_API_BASE + keyword + PRODUCT2_API_BASE + realCat + PRODUCT3_API_BASE;
             address = sb;
             URL url = new URL(sb);
             conn = (HttpURLConnection) url.openConnection();
@@ -47,6 +90,21 @@ public class Products_API {
         item.name = predsJsonArray.getJSONObject(0).getString("name");
         Integer temp = predsJsonArray.getJSONObject(0).getInt("salePrice");
         item.price = temp.toString();
+
+        JSONArray imagesArray = predsJsonArray.getJSONObject(0).getJSONArray("images");
+        String imgURL = imagesArray.getJSONObject(0).getString("href");
+
+        try {
+            URL url = new URL(imgURL);
+            InputStream in = new BufferedInputStream(url.openStream());
+            OutputStream out = new BufferedOutputStream(new FileOutputStream(item.name + ".jpg"));
+
+            for ( int i; (i = in.read()) != -1; ) {
+                out.write(i);
+            }
+        } catch (Exception e) {
+        }
+        item.imgPath = item.name + ".jpg";
         return item;
     }
 }
