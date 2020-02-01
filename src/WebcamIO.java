@@ -5,6 +5,11 @@ public class WebcamIO {
 
     int COUNT = 0;
 
+    public static void main(String[] args) {
+        WebcamIO test = new WebcamIO();
+        test.getImage();
+    }
+
     public WebcamIO() {
 
     }
