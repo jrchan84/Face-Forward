@@ -10,15 +10,6 @@ public class WebcamIO {
     }
 
 
-    public static void main(String[] args) {
-        WebcamIO test = new WebcamIO();
-        test.getImage();
-        test.getImage();
-        test.getImage();
-        test.getImage();
-    }
-
-
     public File getImage() {
         File image = null;
         try {
