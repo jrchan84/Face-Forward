@@ -39,10 +39,6 @@ public class Main {
             boolean isTheySame = FaceCompare(faceId1, faceId2);
         }
 
-        private void runFirst(){
-
-        }
-
         public static String FaceRecognize(String photoString, Boolean local){
             HttpClient httpclient = HttpClientBuilder.create().build();
             try {

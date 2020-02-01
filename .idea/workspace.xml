@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a6ef462b-4733-4eec-8fd8-52fccfb04e2a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/project/photoUri" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project/unnamed.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -128,7 +125,14 @@
       <option name="project" value="LOCAL" />
       <updated>1580580482900</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="face compare successful, starting to iterate over faces">
+      <created>1580592629539</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1580592629539</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -147,7 +151,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="did face recognition, &#10;CAN: compare 2 faces, change url of image into face ID&#10;CANNOT: compare against multiple faces" />
     <MESSAGE value="try 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="try 2" />
+    <MESSAGE value="face compare successful, starting to iterate over faces" />
+    <option name="LAST_COMMIT_MESSAGE" value="face compare successful, starting to iterate over faces" />
   </component>
   <component name="WindowStateProjectService">
     <state x="233" y="20" key="#Notifications" timestamp="1580580223535">
@@ -166,30 +171,30 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="490" y="250" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1280.720@0.0.1280.720" timestamp="1580539185203" />
-    <state x="297" y="0" key="CommitChangelistDialog2" timestamp="1580580482037">
+    <state x="297" y="0" key="CommitChangelistDialog2" timestamp="1580592627929">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="297" y="0" key="CommitChangelistDialog2/0.0.1280.720@0.0.1280.720" timestamp="1580580482037" />
+    <state x="297" y="0" key="CommitChangelistDialog2/0.0.1280.720@0.0.1280.720" timestamp="1580592627929" />
     <state x="348" y="102" key="FileChooserDialogImpl" timestamp="1580540310379">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="348" y="102" key="FileChooserDialogImpl/0.0.1280.720@0.0.1280.720" timestamp="1580540310379" />
-    <state width="1237" height="176" key="GridCell.Tab.0.bottom" timestamp="1580592585207">
+    <state width="1237" height="176" key="GridCell.Tab.0.bottom" timestamp="1580592662161">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1237" height="176" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1580592585207" />
-    <state width="1237" height="176" key="GridCell.Tab.0.center" timestamp="1580592585207">
+    <state width="1237" height="176" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1580592662161" />
+    <state width="1237" height="176" key="GridCell.Tab.0.center" timestamp="1580592662161">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1237" height="176" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1580592585207" />
-    <state width="1237" height="176" key="GridCell.Tab.0.left" timestamp="1580592585207">
+    <state width="1237" height="176" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1580592662161" />
+    <state width="1237" height="176" key="GridCell.Tab.0.left" timestamp="1580592662161">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1237" height="176" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1580592585207" />
-    <state width="1237" height="176" key="GridCell.Tab.0.right" timestamp="1580592585207">
+    <state width="1237" height="176" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1580592662161" />
+    <state width="1237" height="176" key="GridCell.Tab.0.right" timestamp="1580592662161">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1237" height="176" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1580592585207" />
+    <state width="1237" height="176" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1580592662161" />
     <state width="1237" height="220" key="GridCell.Tab.1.bottom" timestamp="1580582616079">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
@@ -206,14 +211,18 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state width="1237" height="220" key="GridCell.Tab.1.right/0.0.1280.720@0.0.1280.720" timestamp="1580582616079" />
+    <state x="354" y="77" key="MultipleFileMergeDialog" timestamp="1580592655685">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="354" y="77" key="MultipleFileMergeDialog/0.0.1280.720@0.0.1280.720" timestamp="1580592655685" />
     <state x="121" y="0" key="SettingsEditor" timestamp="1580579548260">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="121" y="0" key="SettingsEditor/0.0.1280.720@0.0.1280.720" timestamp="1580579548260" />
-    <state x="233" y="83" key="Vcs.Push.Dialog.v2" timestamp="1580580492579">
+    <state x="233" y="83" key="Vcs.Push.Dialog.v2" timestamp="1580592632045">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="233" y="83" key="Vcs.Push.Dialog.v2/0.0.1280.720@0.0.1280.720" timestamp="1580580492579" />
+    <state x="233" y="83" key="Vcs.Push.Dialog.v2/0.0.1280.720@0.0.1280.720" timestamp="1580592632045" />
     <state x="93" y="93" width="1095" height="535" key="com.intellij.dvcs.ui.CompareBranchesDialog" timestamp="1580580471347">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
