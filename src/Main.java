@@ -233,10 +233,11 @@ public class Main extends Application {
                         userDisplayTextHelp.setVisible(true);
                         buttonHBox.setVisible(true);
                     }
+
                 });
 
             }
-        }, 0,1000);
+        }, 0,500);
 
     }
 
@@ -247,17 +248,8 @@ public class Main extends Application {
     }
 
     public void captureButtonClick(){
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                webcamIO.getImage();
-            }
-        };
-        Thread test = new Thread(r);
-
-
-        profileImage = new Image(webcamIO.getCount() + ".png");
+        webcamIO.getImage();
+        profileImage = new Image("1.png");
         profileImageView.setImage(profileImage);
-        stage.show();
     }
 }
