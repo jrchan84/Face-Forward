@@ -24,10 +24,10 @@ import java.util.TimerTask;
 public class Main extends Application {
 
     private Stage stage;
-    private Boolean faceDetected = false;
-    private Boolean secondaryText = false;
-    private Boolean helpButton = false;
-    private Boolean captured = false;
+    private boolean faceDetected = false;
+    private boolean secondaryText = false;
+    private boolean helpButton = false;
+    private boolean captured = false;
     private Text userDisplayTextMain;
     private Text userDisplayTextSub;
     private Text userDisplayTextHelp;
@@ -233,12 +233,10 @@ public class Main extends Application {
                         userDisplayTextHelp.setVisible(true);
                         buttonHBox.setVisible(true);
                     }
-
+                        profileImage = new Image("1.png");
                 });
-
             }
         }, 0,500);
-
     }
 
     public void buttonClick() {
@@ -249,7 +247,6 @@ public class Main extends Application {
 
     public void captureButtonClick(){
         webcamIO.getImage();
-        profileImage = new Image("1.png");
-        profileImageView.setImage(profileImage);
+        captured = true;
     }
 }

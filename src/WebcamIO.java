@@ -12,8 +12,11 @@ public class WebcamIO {
     public File getImage() {
         File image = null;
         try {
-            Runtime.getRuntime().exec("imagesnap src/"+COUNT+".png ");
+
+            Runtime.getRuntime().exec("imagesnap src/"+COUNT+".png");
+
             image = new File(+COUNT+".png");
+
             COUNT++;
             Thread.sleep(2000);
         } catch (Exception e) {
