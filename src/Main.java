@@ -17,6 +17,7 @@ import javafx.scene.text.*;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -38,6 +39,9 @@ public class Main extends Application {
     private Image profileImage = new Image("0.png");
     private ImageView profileImageView;
 
+    private HashMap<String, Profile> faceMap = new HashMap<>(); // dont delete
+
+
     public final Timer clockTimer = new Timer();
 
     private static final String jillBao =
@@ -52,13 +56,13 @@ public class Main extends Application {
         String faceId2 = FaceID.FaceRecognize(jillbao2, false);
         boolean isTheySame = FaceID.FaceCompare(faceId1, faceId2);
 
-
         item = new Items("Macbook","laptops");
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        faceMapSetup();
         stage = primaryStage;
         Screen screen = Screen.getPrimary();
         Rectangle2D bounds = screen.getVisualBounds();
@@ -66,6 +70,7 @@ public class Main extends Application {
         stage.setY(bounds.getMinY());
         stage.setWidth(bounds.getWidth());
         stage.setHeight(bounds.getHeight());
+
 
         userDisplayTextMain = new Text("Step up to begin your tailored experience.");
         userDisplayTextMain.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 40));
@@ -257,5 +262,15 @@ public class Main extends Application {
         webcamIO.getImage();
         profileImage = new Image("1.png");
         profileImageView.setImage(profileImage);
+    }
+
+    private void faceMapSetup(){
+        Profile alex = new Profile("Alex", "Lin", "alxander.lin@gmail.com", "password");
+        Profile jill = new Profile("Jill", "Bao", "jill.ba00@gmail.com", "hehe");
+
+        faceMap.put("88a3f43d-6a56-4323-b26b-765f00a41762", alex);
+        faceMap.put("96179100-afc0-4106-8172-89535c00ecb0", jill);
+
+
     }
 }
