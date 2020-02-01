@@ -12,6 +12,7 @@ public class Products_API {
     private String description;
     private String imgPath;
     private String price;
+    private int sku;
 
     private static final String PRODUCT1_API_BASE = "https://api.bestbuy.com/v1/products((search=";
 
@@ -99,6 +100,7 @@ public class Products_API {
 
         this.description = predsJsonArray.getJSONObject(0).getString("shortDescription");
         this.name = predsJsonArray.getJSONObject(0).getString("name");
+        this.sku = predsJsonArray.getJSONObject(0).getInt("sku");
         Integer temp = predsJsonArray.getJSONObject(0).getInt("salePrice");
         this.price = temp.toString();
 
@@ -132,5 +134,9 @@ public class Products_API {
 
     public String getImagePath() {
         return this.imgPath;
+    }
+
+    public int getSku() {
+        return this.sku;
     }
 }
