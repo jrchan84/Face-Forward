@@ -9,7 +9,6 @@ public class WebcamIO {
 
     }
 
-
     public File getImage() {
         File image = null;
         try {
