@@ -17,7 +17,6 @@ import javafx.scene.text.*;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -41,10 +40,17 @@ public class Main extends Application {
 
     public final Timer clockTimer = new Timer();
 
-    public static void main(String[] args) {
+    private static final String jillBao =
+            "{\"url\":\"https://images.squarespace-cdn.com/content/v1/5af0d64d4cde7ab9a2e29635/1560631263524-ECUQ1RR9KZ71BKV9GCA4/ke17ZwdGBToddI8pDm48kLR2rgEg1jPu1GtjV4K1vZ97gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0scl71iiVnMuLeEyTFSXT3qwhEKW1IfUKL5GUNLdDa9MjuPXcXiDenG_NSvE-2lGCg/NSCC-39.jpg\"}";
+    private static final String jillbao2 =
+            "{\"url\":\"https://media-exp1.licdn.com/dms/image/C5603AQFxKEZcNlZWYA/profile-displayphoto-shrink_200_200/0?e=1585180800&v=beta&t=ewtVAbYd4n8Moi8m_rNnMF7jfU5Z-O43GRpwbXqQntQ\"}";
+    private static final String alex =
+            "src/unnamed.jpg";
 
-        String faceId1 = faceID.FaceRecognize();
-        faceID.FaceCompare(faceId1, "filler");
+    public static void main(String[] args) {
+        String faceId1 = FaceID.FaceRecognize(alex, true); // false mean uses URL, true means use local
+        String faceId2 = FaceID.FaceRecognize(jillbao2, false);
+        boolean isTheySame = FaceID.FaceCompare(faceId1, faceId2);
 
 
         item = new Items("Macbook","laptops");
