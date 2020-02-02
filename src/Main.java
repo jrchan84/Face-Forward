@@ -13,6 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.*;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -39,7 +40,8 @@ public class Main extends Application {
     private static Items item;
     private Image profileImage = new Image("0.png");
     private ImageView profileImageView;
-    private Profile jillProfile;
+    private static Profile profile;
+    private static Scene mainScene;
 
     private HashMap<String, Profile> faceMap = new HashMap<>(); // dont delete
 
@@ -54,7 +56,7 @@ public class Main extends Application {
             "src/unnamed.jpg";
 
     public static void main(String[] args) {
-        jillProfile = new Profile();
+        profile = new Profile("Jill", "Bao", "jillbaobao@gmail.com", "asdfghjkl");
         String faceId1 = FaceID.FaceRecognize(jill, true); // false mean uses URL, true means use local
         String faceId2 = FaceID.FaceRecognize(jillbao2, false);
         boolean isTheySame = FaceID.FaceCompare(faceId1, faceId2);
@@ -75,7 +77,7 @@ public class Main extends Application {
         stage.setHeight(bounds.getHeight());
 
 
-        userDisplayTextMain = new Text("Step up to begin your tailored experience.");
+        userDisplayTextMain = new Text("Step up to begin your personalized experience.");
         userDisplayTextMain.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 40));
         userDisplayTextMain.setFill(Color.WHITE);
         userDisplayTextMain.setStyle("-fx-text-fill: white;");
@@ -110,6 +112,7 @@ public class Main extends Application {
                         "    -fx-text-fill: linear-gradient(white, #d0d0d0);\n" +
                         "    -fx-font-size: 12px;\n" +
                         "    -fx-padding: 10 20 10 20;");
+        yesButton.setOnAction(e -> yesButtonClick());
 
         Button noButton = new Button("No");
         noButton.setAlignment(Pos.CENTER_RIGHT);
@@ -126,6 +129,7 @@ public class Main extends Application {
                 "    -fx-text-fill: linear-gradient(white, #d0d0d0);\n" +
                 "    -fx-font-size: 12px;\n" +
                 "    -fx-padding: 10 20 10 20;");
+        noButton.setOnAction(e -> noButtonClick());
 
         buttonHBox = new HBox(70);
         buttonHBox.getChildren().add(yesButton);
@@ -133,22 +137,22 @@ public class Main extends Application {
         buttonHBox.setAlignment(Pos.CENTER);
         buttonHBox.setVisible(false);
 
-        Button captureButton = new Button("Capture Face");
-        captureButton.setAlignment(Pos.BOTTOM_CENTER);
-        captureButton.setStyle("-fx-background-color: \n" +
-                "        #090a0c,\n" +
-                "        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),\n" +
-                "        linear-gradient(#20262b, #191d22),\n" +
-                "        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));\n" +
-                "    -fx-background-radius: 5,4,3,5;\n" +
-                "    -fx-background-insets: 0,1,2,0;\n" +
-                "    -fx-text-fill: white;\n" +
-                "    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );\n" +
-                "    -fx-font-family: \"Arial\";\n" +
-                "    -fx-text-fill: linear-gradient(white, #d0d0d0);\n" +
-                "    -fx-font-size: 12px;\n" +
-                "    -fx-padding: 10 20 10 20;");
-        captureButton.setOnAction(e -> captureButtonClick());
+//        Button captureButton = new Button("Capture Face");
+//        captureButton.setAlignment(Pos.BOTTOM_CENTER);
+//        captureButton.setStyle("-fx-background-color: \n" +
+//                "        #090a0c,\n" +
+//                "        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),\n" +
+//                "        linear-gradient(#20262b, #191d22),\n" +
+//                "        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));\n" +
+//                "    -fx-background-radius: 5,4,3,5;\n" +
+//                "    -fx-background-insets: 0,1,2,0;\n" +
+//                "    -fx-text-fill: white;\n" +
+//                "    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );\n" +
+//                "    -fx-font-family: \"Arial\";\n" +
+//                "    -fx-text-fill: linear-gradient(white, #d0d0d0);\n" +
+//                "    -fx-font-size: 12px;\n" +
+//                "    -fx-padding: 10 20 10 20;");
+//        captureButton.setOnAction(e -> captureButtonClick());
 
 
         VBox textBox = new VBox();
@@ -156,7 +160,7 @@ public class Main extends Application {
         textBox.getChildren().add(userDisplayTextSub);
         textBox.getChildren().add(userDisplayTextHelp);
         textBox.getChildren().add(buttonHBox);
-        textBox.getChildren().add(captureButton);
+//        textBox.getChildren().add(captureButton);
         textBox.setSpacing(70);
         textBox.setAlignment(Pos.CENTER);
 
@@ -225,10 +229,10 @@ public class Main extends Application {
         TabPane tabScreen = new TabPane(userTab, employeeTab);
         tabScreen.setOnKeyPressed(e -> buttonClick());
 
-        Scene scene = new Scene(tabScreen, 1600, 2560);
+        mainScene = new Scene(tabScreen, 1600, 2560);
 
         primaryStage.setTitle("BestAI V0.1");
-        primaryStage.setScene(scene);
+        primaryStage.setScene(mainScene);
         primaryStage.setResizable(false);
         primaryStage.show();
 
@@ -241,13 +245,31 @@ public class Main extends Application {
                 Platform.runLater(() -> {
                     if (faceDetected) {
                         userDisplayTextMain.setText("Hi Jill. Here are some recommendations.");
+                    } else {
+                        userDisplayTextMain.setText("Step up to begin your personalized experience.");
+                    }
+
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
                     if (secondaryText) {
                         userDisplayTextSub.setVisible(true);
+                    } else {
+                        userDisplayTextSub.setVisible(false);
+                    }
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
                     if (helpButton) {
                         userDisplayTextHelp.setVisible(true);
                         buttonHBox.setVisible(true);
+                    } else {
+                        userDisplayTextHelp.setVisible(false);
+                        buttonHBox.setVisible(false);
                     }
                         profileImage = new Image("1.png");
                 });
@@ -261,10 +283,68 @@ public class Main extends Application {
         helpButton = true;
     }
 
-    public void captureButtonClick(){
-        webcamIO.getImage();
-        captured = true;
+//    public void captureButtonClick(){
+//        webcamIO.getImage();
+//        captured = true;
+//    }
+
+    public void yesButtonClick() {
+
+
+        Text userDisplayTextYes = new Text("A customer representative is on the way!");
+        userDisplayTextYes.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 40));
+        userDisplayTextYes.setFill(Color.WHITE);
+        userDisplayTextYes.setStyle("-fx-text-fill: white;");
+        userDisplayTextYes.setX(300);
+        userDisplayTextYes.setY(200);
+        userDisplayTextYes.setTextAlignment(TextAlignment.CENTER);
+
+        Button returnButton = new Button("Return");
+        returnButton.setAlignment(Pos.BOTTOM_CENTER);
+        returnButton.setPadding(new Insets(10,10,10,10));
+        returnButton.setStyle("-fx-background-color: \n" +
+                "        #090a0c,\n" +
+                "        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),\n" +
+                "        linear-gradient(#20262b, #191d22),\n" +
+                "        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));\n" +
+                "    -fx-background-radius: 5,4,3,5;\n" +
+                "    -fx-background-insets: 0,1,2,0;\n" +
+                "    -fx-text-fill: white;\n" +
+                "    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );\n" +
+                "    -fx-font-family: \"Arial\";\n" +
+                "    -fx-text-fill: linear-gradient(white, #d0d0d0);\n" +
+                "    -fx-font-size: 12px;\n" +
+                "    -fx-padding: 10 20 10 20;");
+        returnButton.setOnAction(e -> returnButtonClick());
+
+
+        StackPane userPane = new StackPane(userDisplayTextYes, returnButton);
+        userPane.setPrefSize(2560,1600);
+        userPane.setAlignment(Pos.CENTER);
+        userPane.setStyle("-fx-background-image: url('UserDisplayBackground.png');" + "-fx-background-size: stretch;" + "-fx-background-size: no-repeat;" + "-fx-background-size: center;");
+
+        Scene scene = new Scene(userPane, 1600, 2560);
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
+
     }
+
+    public void noButtonClick() {
+        faceDetected = false;
+        secondaryText = false;
+        helpButton = false;
+    }
+
+    public void returnButtonClick() {
+        stage.setScene(mainScene);
+        stage.setResizable(false);
+        faceDetected = false;
+        helpButton = false;
+        secondaryText = false;
+        stage.show();
+    }
+
 
     private void faceMapSetup(){
         Profile alex = new Profile("Alex", "Lin", "alxander.lin@gmail.com", "password");
