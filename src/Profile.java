@@ -15,11 +15,26 @@ public class Profile {
     private List<Items> purchases;
     private List<Items> recommendations;
 
+    private Items item1 = new Items("macbook pro", "laptops");
+    private Items item2 = new Items("controller", "xbox1");
+    private Items item3 = new Items("go pro", "cameras");
+    private Items item4 = new Items("samsung", "phones");
+
     public Profile(String firstName, String lastName, String emailAddress, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailAddress = emailAddress;
         this.passWord = password;
+
+        recentItems = new ArrayList<Items>();
+        wishlist = new ArrayList<Items>();
+    }
+
+    public Profile() {
+        this.firstName = null;
+        this.lastName = null;
+        this.emailAddress = null;
+        this.passWord = null;
 
         recentItems = new ArrayList<Items>();
         wishlist = new ArrayList<Items>();
@@ -54,6 +69,10 @@ public class Profile {
         }
     }
 
+    public List<Items> getRecommendations() {
+        return recommendations;
+    }
+
     public void addWishListItem(Items item) {
         wishlist.add(item);
     }
@@ -82,42 +101,40 @@ public class Profile {
         return recentItems;
     }
 
-//    public void setJill() {
-//        this.firstName = "Jill";
-//        this.lastName = "Bao";
-//        this.emailAddress = "jill.ba00@gmail.com";
-//        this.passWord = "123456789";
-//        this.age = 19;
-//
-//        recentItems.add(item1);
-//        recentItems.add(item2);
-//
-//        purchases.add(item3);
-//        purchases.add(item4);
-//    }
-//
-//    public void setAlex() {
-//        this.firstName = "Alex";
-//        this.lastName = "Lin";
-//        this.emailAddress = "alxdanderlin@gmail.com";
-//        this.passWord = "987654321";
-//        this.age = 19;
-//        recentItems.add(item1);
-//        recentItems.add(item2);
-//
-//        purchases.add(item3);
-//    }
-//
-//    public void setAlan() {
-//        this.firstName = "Alan";
-//        this.lastName = "Milligan";
-//        this.emailAddress = "alanjmilligan@gmail.com";
-//        this.passWord = "12123434";
-//        this.age = 19;
-//        recentItems.add(item1);
-//        recentItems.add(item2);
-//
-//    }
+    public void setJill() {
+        this.firstName = "Jill";
+        this.lastName = "Bao";
+        this.emailAddress = "jill.ba00@gmail.com";
+        this.passWord = "123456789";
+        this.age = 19;
+
+        recommendations.add(item1);
+        recommendations.add(item2);
+
+        recommendations.add(item3);
+        recommendations.add(item4);
+    }
+
+    public void setAlex() {
+        this.firstName = "Alex";
+        this.lastName = "Lin";
+        this.emailAddress = "alxdanderlin@gmail.com";
+        this.passWord = "987654321";
+        this.age = 19;
+        recommendations.add(item1);
+        recommendations.add(item2);
+        recommendations.add(item3);
+    }
+
+    public void setAlan() {
+        this.firstName = "Alan";
+        this.lastName = "Milligan";
+        this.emailAddress = "alanjmilligan@gmail.com";
+        this.passWord = "12123434";
+        this.age = 19;
+        recommendations.add(item1);
+        recommendations.add(item2);
+    }
 
 
 }
