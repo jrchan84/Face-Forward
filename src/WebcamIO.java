@@ -12,8 +12,15 @@ public class WebcamIO {
     public File getImage() {
         File image = null;
         try {
-            Runtime.getRuntime().exec("imagesnap src/"+COUNT+".png ");
-            image = new File(+COUNT+".png");
+
+            File dir = new File("/Users/alansmacbook/Desktop/BizHacks-2020/resources");
+            String cmd = "imagesnap 0.png";
+
+            Process test = Runtime.getRuntime().exec(cmd,null,dir);
+            test.waitFor();
+            image = new File("../resources/0.png");
+
+
             COUNT++;
             Thread.sleep(2000);
         } catch (Exception e) {

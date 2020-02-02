@@ -18,6 +18,8 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -38,6 +40,9 @@ public class Main extends Application {
     private static Items item;
     private Image profileImage = new Image("0.png");
     private ImageView profileImageView;
+
+
+    private int callCount = 0;
 
     public final Timer clockTimer = new Timer();
 
@@ -201,6 +206,8 @@ public class Main extends Application {
         userTab.setContent(userPane);
         userTab.setStyle("-fx-text-base-color: white;"+" -fx-background-color: grey;");
 
+        userTab.setOnSelectionChanged(e->updatePls());
+
         Tab employeeTab = new Tab("Employee Interface");
         employeeTab.setClosable(false);
         employeeTab.setContent(employeePane);
@@ -233,6 +240,9 @@ public class Main extends Application {
                         userDisplayTextHelp.setVisible(true);
                         buttonHBox.setVisible(true);
                     }
+                    profileImage = new Image("file:/Users/alansmacbook/Desktop/BizHacks-2020/resources/0.png");
+                    profileImageView.setImage(profileImage);
+                    primaryStage.show();
 
                 });
 
@@ -247,9 +257,17 @@ public class Main extends Application {
         helpButton = true;
     }
 
+    private void updatePls() {
+        profileImage = new Image("file:/Users/alansmacbook/Desktop/BizHacks-2020/resources/0.png");
+        profileImageView.setImage(profileImage);
+
+    }
+
     public void captureButtonClick(){
         webcamIO.getImage();
-        profileImage = new Image("1.png");
+
+        profileImage = new Image("file:/Users/alansmacbook/Desktop/BizHacks-2020/resources/0.png");
         profileImageView.setImage(profileImage);
+
     }
 }
