@@ -13,6 +13,7 @@ public class WebcamIO {
         File image = null;
         try {
 
+
             File dir = new File("/Users/alansmacbook/Desktop/BizHacks-2020/resources");
             String cmd = "imagesnap 0.png";
 
@@ -22,7 +23,7 @@ public class WebcamIO {
 
 
             COUNT++;
-            Thread.sleep(2000);
+//            Thread.sleep(2000);
         } catch (Exception e) {
             System.out.println("Snap Error");
             throw new Error("You must allow the webcam to work!");
