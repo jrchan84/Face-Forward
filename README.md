@@ -20,3 +20,7 @@ Presentation:
 To showcase our project and highlight the privacy concerns, we demoed the program with a trial with an "consenting" customer. ie, the program would only respond to users who have expressed their consent to using the service and not others who the program doesn't recognize. We achieved this by storing a local image of a user and using the API to create a FaceID. Then, during the demo, we would connect to the API with two different people, one with a matching FaceID and one without. Only the matching user would be able to interact with the programs prompts.
 
 This project was an excellent experience in working with API's and provided rewarding exposure to cloud technologies.
+
+Running the Program
+
+To allow the program to work on different PC's, change the absolute paths of the images and configure the command-line command to take a webcam picture for demo.
